@@ -1,0 +1,13 @@
+extends layout
+
+block scripts
+  script(rel='text/javascript', src='/js/ko.bindings.js')
+  script(rel='text/javascript', src='/js/app.js')
+  script(rel='text/javascript', src='/js/types.js')
+  script(rel='text/javascript', src='/js/jenkins.js')
+  script(rel='text/javascript', src='/js/radiator.js')
+
+block content
+  include ./templates/tpl-radiator.jade
+  div(class='ui')
+    div(class='ui cards' data-bind='template: {name: 'job-template', foreach: jobs, as: 'job'}')

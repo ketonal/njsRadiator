@@ -1,7 +1,15 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    title=title
+    link(rel='stylesheet', href='/css/semantic.css')
+    link(rel='stylesheet', href='/css/style.css')
+    script(rel='text/javascript', src='/js/lib/jquery-2.1.4.js')
+    script(rel='text/javascript', src='/js/lib/semantic.js')
+    script(rel='text/javascript', src='/js/lib/knockout-3.3.0.debug.js')
+    script(rel='text/javascript', src='/js/lib/knockout.mapping-latest.debug.js')
+    script(rel='text/javascript', src='/js/lib/lodash.js')
+    block scripts
+
   body
     block content
