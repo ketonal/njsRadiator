@@ -7,20 +7,22 @@ var cfgFilePath='./appconfig.json'
 var basicCfg = {
     user: '',
     pass: '',
-    jenkinsUrl: 'https://{0}:{1}@jenkins.yourcompany.com/',
-    jobFilter: {
-        name: ''
-    }
+    jenkinsUrl: 'https://{0}:{1}@jenkins.yourcompany.com/'
 }
 
 var cfg = {};
 
-function readConfig() {
+function readConfig(loadComplete) {
     jsonfile.readFile(cfgFilePath, function(err, obj) {
         if(err) {
             initEmptyConfig();
+            module.exports.cfg = basicCfg;
+        } else {
+            module.exports.cfg = obj;
         }
-        cfg = basicCfg;
+        if(loadComplete){
+            loadComplete.apply(this, arguments);
+        }
     });
 }
 
@@ -46,8 +48,5 @@ readConfig();
 module.exports = {
     cfg: cfg,
     loadConfig: readConfig,
-    storeConfig: writeConfig,
-    isEmpty: function(){
-        return !cfg.user && !cfg.pass;
-    }
+    storeConfig: writeConfig
 }

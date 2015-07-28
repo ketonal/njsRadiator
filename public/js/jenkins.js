@@ -17,7 +17,7 @@
     function getAllJobs(jobs) {
         $.ajax({
             type: 'GET',
-            url: '/getAllJobs',
+            url: '/radiator/getJobs',
             dataType: 'json',
             data: {},
             success: function(data) {
@@ -36,7 +36,7 @@
     function getJobInfo(job) {
         $.ajax({
             type: 'GET',
-            url: '/getJobInfo/' + job.name(),
+            url: '/radiator/getJobInfo/' + job.name(),
             dataType: 'json',
             data: {},
             success: function(data) {
