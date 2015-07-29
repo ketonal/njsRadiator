@@ -7,15 +7,18 @@ var router = express.Router();
 
 var jenkins;
 config.loadConfig(function(err, cfg){
+console.dir(config);
     jenkinsConnect();
 });
 
 router.get('/', function(req, res, next){
+    console.dir(jenkins);
+    jenkinsConnect();
     res.render('radiator');
 });
 
 router.get('^(/name/:name?/type/:type?)?', function(req, res){
-    console.log('radiator: ' + req.protocol + '://' + req.get('host') + req.originalUrl);
+//    console.log('radiator: ' + req.protocol + '://' + req.get('host') + req.originalUrl);
     if(!config.cfg.user){
         res.redirect('/setup');
         return;
@@ -36,7 +39,7 @@ router.get('^\/jobs(\/name\/:name?\/type\/:type?)?', function(req, res, next) {
 router.get('/jobInfo/:name', function(req, res, next) {
     jenkins.job_info(req.params.name, function(err, data){
         if(err) {
-            return console.log(err);
+            return console.dir(err);
         }
         res.send(data);
     });
@@ -45,7 +48,7 @@ router.get('/jobInfo/:name', function(req, res, next) {
 router.get('/buildInfo/:jobName/:buildNo', function(req, res, next) {
     jenkins.last_build_info(req.params.jobName, req.params.buildNo, function(err, data) {
         if (err){
-            return console.log(err);
+            return console.dir(err);
         }
         res.send(data);
     });
@@ -54,7 +57,7 @@ router.get('/buildInfo/:jobName/:buildNo', function(req, res, next) {
 router.get('/lastBuildInfo/:jobName', function(req, res, next) {
     jenkins.last_build_info(req.params.jobName, function(err, data) {
         if (err){
-            return console.log(err);
+            return console.dir(err);
         }
         res.send(data);
     });
@@ -63,7 +66,7 @@ router.get('/lastBuildInfo/:jobName', function(req, res, next) {
 router.get('/lastBuildReport/:jobName', function(req, res, next) {
     jenkins.last_build_report(req.params.jobName, function(err, data) {
         if (err){
-            return console.log(err);
+            return console.dir(err);
         }
         res.send(data);
     });
@@ -71,12 +74,14 @@ router.get('/lastBuildReport/:jobName', function(req, res, next) {
 
 //jenkins util functions - obsolete - move to call from router
 function jenkinsConnect() {
+    console.log('Initializing jenkins connection...');
     jenkins = jenkinsApi.init(format(config.cfg.jenkinsUrl, config.cfg.user, config.cfg.pass));
 }
+
 function getJobs(req, res, filter) {
     jenkins.all_jobs(function(err, data){
         if(err) {
-            console.log(err);
+            console.error(err);
             res.redirect('/setup');
             return;
         }

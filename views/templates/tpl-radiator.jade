@@ -3,21 +3,24 @@ script#job-template(type='text/html').
       <div class="content">
         <a class="header" data-bind="attr: {href: url}, text: name"></a>
         <!-- ko if: loading -->
-        <div class="ui active dimmer">
-          <div class="ui loader"></div>
-        </div>
+          <div class="ui active dimmer">
+            <div class="ui loader"></div>
+          </div>
         <!-- /ko -->
         <!-- ko if: job.detailsLoaded -->
-        <!--Last build: <a data-bind="text: lastBuild.number, click: $root.getLastBuildInfo.bind($data)"></a>-->
-        Last build: <a data-bind="attr: {href: lastBuild.url}, text: lastBuild.number"></a>
+          <!--Last build: <a data-bind="text: lastBuild.number, click: $root.getLastBuildInfo.bind($data)"></a>-->
+          Last build: <a data-bind="attr: {href: lastBuild.url}, text: lastBuild.number"></a>
+        <!-- /ko -->
+        <!-- ko if: job.lastBuildInfo().changeSet  -->
+          (<a data-bind="attr: {href: job.lastBuildInfo.changeSet.items[0].author.absoluteUrl}, text: job.lastBuildInfo.changeSet.items[0].author.fullName"></a>)
         <!-- /ko -->
         <!-- ko if: job.detailsLoaded -->
-        <div class="description" data-bind="text: description"></div>
+          <div class="description" data-bind="text: description"></div>
         <!-- /ko -->
         </div>
         <div class="extra content">
-        <div class="ui label" data-bind="jobStatusColor: color">
-        <i class="" data-bind="text: color">Build color</i>
-        </div>
+          <div class="ui label" data-bind="jobStatusColor: color">
+            <i class="" data-bind="text: color">Build color</i>
+          </div>
         </div>
     </div>

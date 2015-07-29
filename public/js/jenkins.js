@@ -44,6 +44,9 @@
                 ko.mapping.fromJS(data, {}, job);
                 job.loading(false);
                 job.detailsLoaded(true);
+                getLastBuildInfo(job, function(build){
+                    job.lastBuildInfo(build);
+                });
             },
             error: function() {
                 console.log(arguments);
@@ -60,7 +63,9 @@
             success: function(data) {
                 console.log(data);
                 var build = new module.Build(data);
-                fn.apply(build);
+                if(fn) {
+                    fn.apply(self, [build]);
+                }
             },
             error: function() {
                 console.log(arguments);
@@ -68,7 +73,7 @@
         })
     };
 
-    function getLastBuildInfo(job, buildNo, fn) {
+    function getLastBuildInfo(job, fn) {
         $.ajax({
             type: 'GET',
             url: '/radiator/lastBuildInfo/' + job.name(),
@@ -77,7 +82,9 @@
             success: function(data) {
                 console.log(data);
                 var build = new module.Build(data);
-                fn.apply(build);
+                if(fn) {
+                    fn.apply(self, [build]);
+                }
             },
             error: function() {
                 console.log(arguments);

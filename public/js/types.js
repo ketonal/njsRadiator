@@ -6,6 +6,7 @@
         ko.mapping.fromJS(data, {}, self);
         self.loading = ko.observable(false);
         self.detailsLoaded = ko.observable(false);
+        self.lastBuildInfo = ko.observable(new Build());
         return self;
     }
 

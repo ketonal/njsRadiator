@@ -20,6 +20,9 @@
                 }
             });
         };
+        self.goBack = function() {
+            window.location = '/radiator';
+        }
         return self;
     }
 

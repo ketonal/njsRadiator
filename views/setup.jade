@@ -30,4 +30,4 @@ block content
               label Jenkins URL (parametrized)
               input(type='text' name='jenkinsUrl' placeholder='https://{0}:{1}@jenkins.yourcompany.com/' data-bind='value: config() ? config().jenkinsUrl : \'\'')
             button#save(class='ui button' type='button' data-bind='click: postConfig') Save
-            button#back(class='ui button' type='button') Go back radiating
+            button#back(class='ui button' type='button' data-bind='click: goBack') Go back radiating
