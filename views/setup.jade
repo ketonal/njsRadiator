@@ -22,13 +22,12 @@ block content
             div(class='fields')
               div(class='field')
                 label Login
-                input(type='text' name='user' placeholder='Login')
+                input(type='text' name='user' placeholder='Login' data-bind='value: config() ? config().user : \'\'')
               div(class='field')
                 label Password
-                input(type='text' name='pass' placeholder='Password')
+                input(type='text' name='pass' placeholder='Password' data-bind='value: config() ? config().pass : \'\'')
             div(class='field')
               label Jenkins URL (parametrized)
-              input(type='text' name='jenkinsUrl' placeholder='https://{0}:{1}@jenkins.blstream.net/jenkins')
-            button(class='ui button' type='submit') Save
-            button(class='ui button' type='') Go back radiating
-
+              input(type='text' name='jenkinsUrl' placeholder='https://{0}:{1}@jenkins.yourcompany.com/' data-bind='value: config() ? config().jenkinsUrl : \'\'')
+            button#save(class='ui button' type='button' data-bind='click: postConfig') Save
+            button#back(class='ui button' type='button') Go back radiating

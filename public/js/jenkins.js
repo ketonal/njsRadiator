@@ -10,14 +10,14 @@
         }
 
         //init by getting all jobs from server
-        getAllJobs(self.jobs);
+        getJobs(self.jobs);
         return self;
     }
 
-    function getAllJobs(jobs) {
+    function getJobs(jobs, filter) {
         $.ajax({
             type: 'GET',
-            url: '/radiator/getJobs',
+            url: '/radiator/jobs' + (filter ? '/name/' + filter.name + '/type/' + filter.type : ''),
             dataType: 'json',
             data: {},
             success: function(data) {
@@ -36,7 +36,7 @@
     function getJobInfo(job) {
         $.ajax({
             type: 'GET',
-            url: '/radiator/getJobInfo/' + job.name(),
+            url: '/radiator/job/' + job.name(),
             dataType: 'json',
             data: {},
             success: function(data) {

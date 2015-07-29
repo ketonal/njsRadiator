@@ -10,27 +10,30 @@ var basicCfg = {
     jenkinsUrl: 'https://{0}:{1}@jenkins.yourcompany.com/'
 }
 
-var cfg = {};
-
 function readConfig(loadComplete) {
     jsonfile.readFile(cfgFilePath, function(err, obj) {
         if(err) {
             initEmptyConfig();
             module.exports.cfg = basicCfg;
+            console.dir('Initialized empty config:');
+            console.dir(basicCfg);
         } else {
             module.exports.cfg = obj;
+            console.dir('Loaded config:');
+            console.dir(obj);
         }
-        if(loadComplete){
+        if(loadComplete) {
             loadComplete.apply(this, arguments);
         }
     });
 }
 
-function writeConfig() {
-    jsonfile.writeFile(cfgFilePath, cfg, function(err) {
+function writeConfig(newConfig) {
+    jsonfile.writeFile(cfgFilePath, newConfig, function(err) {
         if(err) {
             console.error(err);
         }
+        module.exports.cfg = newConfig;
     })
 }
 
@@ -42,11 +45,8 @@ function initEmptyConfig() {
     });
 }
 
-//read or init new empty config
-readConfig();
-
 module.exports = {
-    cfg: cfg,
+    cfg: {},
     loadConfig: readConfig,
     storeConfig: writeConfig
 }

@@ -8,6 +8,18 @@
 
         //init setup view model by getting config from server
         getConfig(self.config);
+
+        self.postConfig = function() {
+            $.ajax({
+                type: 'POST',
+                url:'/setup/setConfig',
+                data: ko.mapping.toJS(self.config),
+                dataType: 'json',
+                success: function(resp) {
+                    console.log(resp)
+                }
+            });
+        };
         return self;
     }
 

@@ -13,10 +13,10 @@ router.get('/getConfig', function(req, res){
 });
 
 router.post('/setConfig', function(req, res){
-    var config = req.body.config;
-    console.log(config);
-    config.cfg = config;
-    config.storeConfig();
+    var c = req.body.config;
+    console.dir(req.body);
+    config.storeConfig(req.body);
+    res.send('ok');
 });
 
 module.exports = router;

@@ -7,7 +7,6 @@ var router = express.Router();
 
 var jenkins;
 config.loadConfig(function(err, cfg){
-    console.dir(config);
     jenkinsConnect();
 });
 
@@ -15,9 +14,8 @@ router.get('/', function(req, res, next){
     res.render('radiator');
 });
 
-router.get('/name?/:name?/type?/:type?', function(req, res){
+router.get('^(/name/:name?/type/:type?)?', function(req, res){
     console.log('radiator: ' + req.protocol + '://' + req.get('host') + req.originalUrl);
-    console.dir(jenkins);
     if(!config.cfg.user){
         res.redirect('/setup');
         return;
@@ -26,23 +24,34 @@ router.get('/name?/:name?/type?/:type?', function(req, res){
     res.render('radiator', {filter: {name: req.params.name, type: req.params.type}});
 });
 
-router.get('/getJobs/name?/:name?/type?/:type?', function(req, res, next) {
+router.get('^\/jobs(\/name\/:name?\/type\/:type?)?', function(req, res, next) {
     console.dir(req.params);
     if(req.params.length > 0) {
-        getAllJobs(req, res, {name: req.params.name, type: req.params.type});
+        getJobs(req, res, {name: req.params.name, type: req.params.type});
     } else {
-        getAllJobs(req, res);
+        getJobs(req, res);
     }
 });
 
-//jenkins util functions
+router.get('/job/:name', function(req, res, next) {
+    jenkins.job_info(req.params.name, function(err, data){
+        if(err) {
+            return console.log(err);
+        }
+        res.send(data);
+    });
+});
+
+//jenkins util functions - obsolete - move to call from router 
 function jenkinsConnect() {
     jenkins = jenkinsApi.init(format(config.cfg.jenkinsUrl, config.cfg.user, config.cfg.pass));
 }
-function getAllJobs(req, res, filter) {
+function getJobs(req, res, filter) {
     jenkins.all_jobs(function(err, data){
         if(err) {
-            return console.log(err);
+            console.log(err);
+            res.redirect('/setup');
+            return;
         }
         if(filter) {
             data = data.filter(function(d){return d.name.indexOf(filter) > -1});
