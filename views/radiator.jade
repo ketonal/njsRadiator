@@ -8,6 +8,8 @@ block scripts
   script(rel='text/javascript', src='/js/radiator.js')
 
 block content
+  script.
+    $(document).ready(function(){Application.JobsFilter = !{JSON.stringify(filter)}});
   include ./templates/tpl-radiator.jade
   div(class='ui')
     div(class='ui cards' data-bind='template: {name: \'job-template\', foreach: jobs, as: \'job\'}')

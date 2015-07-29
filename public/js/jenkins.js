@@ -10,7 +10,7 @@
         }
 
         //init by getting all jobs from server
-        getJobs(self.jobs);
+        getJobs(self.jobs, module.JobsFilter);
         return self;
     }
 

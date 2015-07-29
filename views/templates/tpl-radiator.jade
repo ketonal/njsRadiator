@@ -12,7 +12,7 @@ script#job-template(type='text/html').
           Last build: <a data-bind="attr: {href: lastBuild.url}, text: lastBuild.number"></a>
         <!-- /ko -->
         <!-- ko if: job.lastBuildInfo().changeSet  -->
-          (<a data-bind="attr: {href: job.lastBuildInfo.changeSet.items[0].author.absoluteUrl}, text: job.lastBuildInfo.changeSet.items[0].author.fullName"></a>)
+          (<a data-bind="attr: {href: lastBuildInfo.changeSet.items[0].author.absoluteUrl}, text: lastBuildInfo.changeSet.items[0].author.fullName"></a>)
         <!-- /ko -->
         <!-- ko if: job.detailsLoaded -->
           <div class="description" data-bind="text: description"></div>

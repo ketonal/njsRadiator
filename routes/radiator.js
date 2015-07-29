@@ -17,8 +17,9 @@ router.get('/', function(req, res, next){
     res.render('radiator');
 });
 
-router.get('^(/name/:name?/type/:type?)?', function(req, res){
+router.get('^(/name/:name?)?(/type/:type?)?', function(req, res){
 //    console.log('radiator: ' + req.protocol + '://' + req.get('host') + req.originalUrl);
+    console.dir(req.params);
     if(!config.cfg.user){
         res.redirect('/setup');
         return;
