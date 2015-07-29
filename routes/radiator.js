@@ -33,7 +33,7 @@ router.get('^\/jobs(\/name\/:name?\/type\/:type?)?', function(req, res, next) {
     }
 });
 
-router.get('/job/:name', function(req, res, next) {
+router.get('/jobInfo/:name', function(req, res, next) {
     jenkins.job_info(req.params.name, function(err, data){
         if(err) {
             return console.log(err);
@@ -42,7 +42,34 @@ router.get('/job/:name', function(req, res, next) {
     });
 });
 
-//jenkins util functions - obsolete - move to call from router 
+router.get('/buildInfo/:jobName/:buildNo', function(req, res, next) {
+    jenkins.last_build_info(req.params.jobName, req.params.buildNo, function(err, data) {
+        if (err){
+            return console.log(err);
+        }
+        res.send(data);
+    });
+});
+
+router.get('/lastBuildInfo/:jobName', function(req, res, next) {
+    jenkins.last_build_info(req.params.jobName, function(err, data) {
+        if (err){
+            return console.log(err);
+        }
+        res.send(data);
+    });
+});
+
+router.get('/lastBuildReport/:jobName', function(req, res, next) {
+    jenkins.last_build_report(req.params.jobName, function(err, data) {
+        if (err){
+            return console.log(err);
+        }
+        res.send(data);
+    });
+});
+
+//jenkins util functions - obsolete - move to call from router
 function jenkinsConnect() {
     jenkins = jenkinsApi.init(format(config.cfg.jenkinsUrl, config.cfg.user, config.cfg.pass));
 }
@@ -55,38 +82,6 @@ function getJobs(req, res, filter) {
         }
         if(filter) {
             data = data.filter(function(d){return d.name.indexOf(filter) > -1});
-        }
-        res.send(data);
-    });
-};
-function getJobInfo(jobName, req, res) {
-    jenkins.job_info(jobName, function(err, data){
-        if(err) {
-            return console.log(err);
-        }
-        res.send(data);
-    });
-};
-function getBuildInfo(jobName, buildNo, req, res) {
-    jenkins.build_info(jobName, buildNo, function(err, data) {
-        if (err){
-            return console.log(err);
-        }
-        res.send(data);
-    });
-};
-function getLastBuildInfo(jobName, req, res){
-    jenkins.last_build_info(jobName, function(err, data) {
-        if (err){
-            return console.log(err);
-        }
-        res.send(data);
-    });
-};
-function getLastBuildReport(jobName, req, res){
-    jenkins.last_build_report(jobName, function(err, data) {
-        if (err){
-            return console.log(err);
         }
         res.send(data);
     });

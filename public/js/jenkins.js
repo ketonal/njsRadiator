@@ -36,7 +36,7 @@
     function getJobInfo(job) {
         $.ajax({
             type: 'GET',
-            url: '/radiator/job/' + job.name(),
+            url: '/radiator/jobInfo/' + job.name(),
             dataType: 'json',
             data: {},
             success: function(data) {
@@ -54,7 +54,7 @@
     function getBuildInfo(job, buildNo, fn) {
         $.ajax({
             type: 'GET',
-            url: '/getBuildInfo/' + job.name() + '/' + buildNo,
+            url: '/radiator/buildInfo/' + job.name() + '/' + buildNo,
             dataType: 'json',
             data: {},
             success: function(data) {
@@ -71,7 +71,7 @@
     function getLastBuildInfo(job, buildNo, fn) {
         $.ajax({
             type: 'GET',
-            url: '/getLastBuildInfo/' + job.name(),
+            url: '/radiator/lastBuildInfo/' + job.name(),
             dataType: 'json',
             data: {},
             success: function(data) {
