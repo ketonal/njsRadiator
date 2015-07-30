@@ -12,7 +12,10 @@
 
     function Build(data) {
         var self = this;
-        ko.mapping.fromJS(data, {}, self);
+        if(data) {
+            self.changeSet = ko.mapping.fromJS(data.changeSet);
+            ko.mapping.fromJS(data, {}, self);
+        }
         self.loading = ko.observable(false);
         self.reportLoaded = ko.observable(false);
         return self;

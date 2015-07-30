@@ -5,12 +5,17 @@
         var self = this;
         self.jobs = ko.observableArray();
 
+        self.postProcess = function(e) {
+            var cols = $(e).parent().parent().find('.three.column.grid .column');
+            console.log(cols);
+        }
         self.getLastBuildInfo = function(job) {
             getLastBuildInfo(job);
         }
 
+
         //init by getting all jobs from server
-        getJobs(self.jobs, module.JobsFilter);
+        getJobs(self.jobs);
         return self;
     }
 
@@ -40,12 +45,14 @@
             dataType: 'json',
             data: {},
             success: function(data) {
-                console.log(data);
+//                console.log(data);
                 ko.mapping.fromJS(data, {}, job);
                 job.loading(false);
                 job.detailsLoaded(true);
+                job.lastBuildInfo().loading(true);
                 getLastBuildInfo(job, function(build){
                     job.lastBuildInfo(build);
+                    job.lastBuildInfo().loading(false);
                 });
             },
             error: function() {
@@ -80,7 +87,6 @@
             dataType: 'json',
             data: {},
             success: function(data) {
-                console.log(data);
                 var build = new module.Build(data);
                 if(fn) {
                     fn.apply(self, [build]);

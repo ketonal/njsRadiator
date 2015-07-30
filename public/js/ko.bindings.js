@@ -2,7 +2,7 @@ ko.bindingHandlers.jobStatusColor = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         var cfg = {
                     disabled: 'black',
-                    blue: 'blue',
+                    blue: 'green',
                     red: 'red',
                     notbuilt: 'yellow'
                 };

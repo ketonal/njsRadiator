@@ -5,7 +5,9 @@ var jenkinsApi = require('jenkins-api');
 var config = require('./config');
 var router = express.Router();
 
+var storedFilterParams = {};  //holding params per referer/ip/request
 var jenkins;
+
 config.loadConfig(function(err, cfg){
 console.dir(config);
     jenkinsConnect();
@@ -18,20 +20,20 @@ router.get('/', function(req, res, next){
 });
 
 router.get('^(/name/:name?)?(/type/:type?)?', function(req, res){
-//    console.log('radiator: ' + req.protocol + '://' + req.get('host') + req.originalUrl);
     console.dir(req.params);
-    if(!config.cfg.user){
-        res.redirect('/setup');
-        return;
-    }
+    //add checking against empty/bad config and redirect to setup then?
+    storedFilterParams[req.get('host')] = {name: req.params.name, type: req.params.type};
+    console.dir(storedFilterParams);
     res.location('/radiator');
-    res.render('radiator', {filter: {name: req.params.name, type: req.params.type}});
+    res.render('radiator');
 });
 
 router.get('^\/jobs(\/name\/:name?\/type\/:type?)?', function(req, res, next) {
     console.dir(req.params);
     if(req.params.length > 0) {
         getJobs(req, res, {name: req.params.name, type: req.params.type});
+    } else if(storedFilterParams[req.get('host')] && (storedFilterParams[req.get('host')].name || storedFilterParams[req.get('host')].type)) {
+        getJobs(req, res, storedFilterParams[req.get('host')]);
     } else {
         getJobs(req, res);
     }
@@ -87,7 +89,7 @@ function getJobs(req, res, filter) {
             return;
         }
         if(filter) {
-            data = data.filter(function(d){return d.name.indexOf(filter) > -1});
+            data = data.filter(function(d){return d.name.indexOf(filter.name) > -1});
         }
         res.send(data);
     });
