@@ -89,6 +89,7 @@ function getJobs(req, res, filter) {
             return;
         }
         if(filter) {
+            console.log('filtering results...');
             data = data.filter(function(d){return d.name.indexOf(filter.name) > -1});
         }
         res.send(data);

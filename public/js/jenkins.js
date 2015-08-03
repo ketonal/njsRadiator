@@ -3,19 +3,36 @@
 
     function JenkinsViewModel() {
         var self = this;
+        self.lastColumnNo = 0;
         self.jobs = ko.observableArray();
+        self.refreshInterval = 30;
+        self.timerValue = ko.observable(self.refreshInterval);
+        self.timerProgress = ko.observable(100);
+        self.timerProgressPercent = ko.computed(function(){return self.timerProgress() + '%';});
 
         self.postProcess = function(e) {
             var cols = $(e).parent().parent().find('.three.column.grid .column');
-            console.log(cols);
+            $(cols[self.lastColumnNo++]).append(e);
+            if(self.lastColumnNo == cols.length) {
+                self.lastColumnNo = 0;
+            }
         }
         self.getLastBuildInfo = function(job) {
             getLastBuildInfo(job);
         }
 
-
         //init by getting all jobs from server
         getJobs(self.jobs);
+
+        setInterval(function() {
+            self.timerValue(self.timerValue() - 1);
+            self.timerProgress((100 * self.timerValue()) / self.refreshInterval);
+            if(self.timerValue() == 0) {
+                self.timerValue(30);
+                refreshJobsInfo(self.jobs());
+            }
+        }, 1000);
+
         return self;
     }
 
@@ -26,7 +43,6 @@
             dataType: 'json',
             data: {},
             success: function(data) {
-                console.log(arguments);
                 jobs(_.map(data, function(j){
                     return new module.Job(j);
                 }));
@@ -38,22 +54,17 @@
         })
     };
 
-    function getJobInfo(job) {
+    function getJobInfo(job, fn) {
         $.ajax({
             type: 'GET',
             url: '/radiator/jobInfo/' + job.name(),
             dataType: 'json',
             data: {},
             success: function(data) {
-//                console.log(data);
                 ko.mapping.fromJS(data, {}, job);
-                job.loading(false);
-                job.detailsLoaded(true);
-                job.lastBuildInfo().loading(true);
-                getLastBuildInfo(job, function(build){
-                    job.lastBuildInfo(build);
-                    job.lastBuildInfo().loading(false);
-                });
+                if(fn) {
+                    fn.apply(self, [job]);
+                }
             },
             error: function() {
                 console.log(arguments);
@@ -101,7 +112,15 @@
     function refreshJobsInfo(jobs) {
         _.forEach(jobs, function(job) {
             job.loading(true);
-            getJobInfo(job);
+            getJobInfo(job, function(j){
+                j.loading(false);
+                j.detailsLoaded(true);
+                j.lastBuildInfo().loading(true);
+                getLastBuildInfo(j, function(build){
+                    j.lastBuildInfo(build);
+                    j.lastBuildInfo().loading(false);
+                });
+            });
         });
     }
 

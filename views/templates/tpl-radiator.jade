@@ -1,7 +1,7 @@
 script#job-template(type='text/html').
     <div class="ui centered segment inverted" data-bind="jobStatusColor: color">
       <div class="content">
-        <a class="header" data-bind="attr: {href: url}, text: name"></a>
+        <h1><a class="header" data-bind="attr: {href: url}, text: name"></a></h1>
         <!-- ko if: loading -->
           <div class="ui active dimmer">
             <div class="ui loader"></div>
@@ -17,12 +17,9 @@ script#job-template(type='text/html').
         <!-- ko if: lastBuildInfo().changeSet && lastBuildInfo().changeSet.items().length > 0-->
           <a data-bind="attr: {href: $data.lastBuildInfo().changeSet.items()[0].author.absoluteUrl},
               text: $data.lastBuildInfo().changeSet.items()[0].author.fullName"></a>
+          <div class="description" data-bind="text:  $data.lastBuildInfo().changeSet.items()[0].date"></div>
+          <div class="description" data-bind="text:  $data.lastBuildInfo().changeSet.items()[0].commitId"></div>
+          <div class="description" data-bind="text: $data.lastBuildInfo().changeSet.items()[0].msg"></div>
         <!-- /ko -->
-        <!-- ko if: job.detailsLoaded -->
-          <div class="description" data-bind="text: description"></div>
-        <!-- /ko -->
-        </div>
-        <div class="extra content">
-          [<i class="" data-bind="text: color">Build color</i>]
         </div>
     </div>
