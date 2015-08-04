@@ -10,8 +10,9 @@ block scripts
 block content
   include ./templates/tpl-radiator.jade
   div(class='ui')
-    div(class='ui indicating progress active' data-bind='attr: {\'data-percent\': timerProgress}')
+    div(class='ui small progress red' data-bind='attr: {\'data-percent\': timerProgress}')
       div(class='bar' style='transition-duration: 250ms' data-bind='style: {width: timerProgressPercent}')
+        div(class='progress' data-bind='text: timerValue')
     div(class='ui' data-bind='template: {name: \'job-template\', foreach: jobs, as: \'job\', afterRender: postProcess}')
     div(class='ui three column grid')
       div(class='column')
