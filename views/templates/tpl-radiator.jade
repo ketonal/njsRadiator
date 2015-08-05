@@ -21,5 +21,8 @@ script#job-template(type='text/html').
           <div class="description" data-bind="text:  $data.lastBuildInfo().changeSet.items()[0].commitId"></div>
           <div class="description" data-bind="text: $data.lastBuildInfo().changeSet.items()[0].msg"></div>
         <!-- /ko -->
+        <!-- ko if: lastBuildInfo().actions -->
+          <div class="description" data-bind="text: $data.lastBuildInfo().actions.causes()[0].shortDescription"></div>
+        <!-- /ko -->
         </div>
     </div>

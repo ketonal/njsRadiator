@@ -99,6 +99,7 @@
             data: {},
             success: function(data) {
                 var build = new module.Build(data);
+                console.log(build);
                 if(fn) {
                     fn.apply(self, [build]);
                 }
