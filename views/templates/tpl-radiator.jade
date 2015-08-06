@@ -8,8 +8,7 @@ script#job-template(type='text/html').
           </div>
         <!-- /ko -->
         <!-- ko if: job.detailsLoaded -->
-          <!--Last build: <a data-bind="text: lastBuild.number, click: $root.getLastBuildInfo.bind($data)"></a>-->
-          Last build: <a data-bind="attr: {href: lastBuild.url}, text: lastBuild.number"></a> by
+          Last build: <a data-bind="attr: {href: lastBuild.url}, text: lastBuild.number" target="_blank"></a> by
         <!-- /ko -->
         <!-- ko if: lastBuildInfo().loading -->
         Loading...
@@ -18,11 +17,11 @@ script#job-template(type='text/html').
           <a data-bind="attr: {href: $data.lastBuildInfo().changeSet.items()[0].author.absoluteUrl},
               text: $data.lastBuildInfo().changeSet.items()[0].author.fullName"></a>
           <div class="description" data-bind="text:  $data.lastBuildInfo().changeSet.items()[0].date"></div>
-          <div class="description" data-bind="text:  $data.lastBuildInfo().changeSet.items()[0].commitId"></div>
+          <a data-bind="attr: {href: lastBuildInfo().gitCommitUrl }, text:  $data.lastBuildInfo().changeSet.items()[0].commitId" target="_blank"></a>
           <div class="description" data-bind="text: $data.lastBuildInfo().changeSet.items()[0].msg"></div>
         <!-- /ko -->
         <!-- ko if: lastBuildInfo().actions -->
-          <div class="description" data-bind="text: $data.lastBuildInfo().actions.causes()[0].shortDescription"></div>
+          <div class="ui" data-bind="text: $data.lastBuildInfo().actions.causes()[0].shortDescription"></div>
         <!-- /ko -->
         </div>
     </div>

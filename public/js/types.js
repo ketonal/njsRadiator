@@ -21,6 +21,17 @@
         }
         self.loading = ko.observable(false);
         self.reportLoaded = ko.observable(false);
+        self.gitCommitUrl = ko.computed(function(){
+            if(self.actions && self.actions.remoteUrls) {
+                var regex = /^.*@(.*)\/project\/(.*)$/;
+                var match = regex.exec(self.actions.remoteUrls()[0]);
+                if(match.length >= 3 && self.changeSet.items().length > 0) {
+                    var url = 'http://' + match[1] + '/?p=' + match[2] + ';a=commitdiff;h=' + self.changeSet.items()[0].commitId();
+                    console.log(url);
+                    return url;
+                }
+            }
+        });
         return self;
     }
 
