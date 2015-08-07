@@ -13,12 +13,21 @@ script#job-template(type='text/html').
         <!-- ko if: lastBuildInfo().loading -->
         Loading...
         <!-- /ko -->
-        <!-- ko if: lastBuildInfo().changeSet && lastBuildInfo().changeSet.items().length > 0-->
-          <a data-bind="attr: {href: $data.lastBuildInfo().changeSet.items()[0].author.absoluteUrl},
-              text: $data.lastBuildInfo().changeSet.items()[0].author.fullName"></a>
-          <div class="description" data-bind="text:  $data.lastBuildInfo().changeSet.items()[0].date"></div>
-          <a data-bind="attr: {href: lastBuildInfo().gitCommitUrl }, text:  $data.lastBuildInfo().changeSet.items()[0].commitId" target="_blank"></a>
-          <div class="description" data-bind="text: $data.lastBuildInfo().changeSet.items()[0].msg"></div>
+        <!-- ko if: lastBuildInfo().changeSet-->
+          <!-- ko if: lastBuildInfo().building -->
+            <div class="ui">
+              <i class="settings icon"></i>Building now...
+            </div>
+          <!-- /ko -->
+          <!-- ko if: lastBuildInfo().changeSet.items().length > 0 -->
+          <div class="ui">
+            <a data-bind="attr: {href: $data.lastBuildInfo().changeSet.items()[0].author.absoluteUrl},
+                text: $data.lastBuildInfo().changeSet.items()[0].author.fullName"></a>
+            <div class="" data-bind="text:  $data.lastBuildInfo().changeSet.items()[0].date"></div>
+            <a data-bind="attr: {href: lastBuildInfo().gitCommitUrl }, text:  $data.lastBuildInfo().changeSet.items()[0].commitId" target="_blank"></a>
+            <div class="" data-bind="text: $data.lastBuildInfo().changeSet.items()[0].msg"></div>
+          </div>
+          <!-- /ko -->
         <!-- /ko -->
         <!-- ko if: lastBuildInfo().actions -->
           <div class="ui" data-bind="text: $data.lastBuildInfo().actions.causes()[0].shortDescription"></div>

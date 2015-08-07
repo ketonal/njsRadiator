@@ -25,12 +25,12 @@
         getJobs(self.jobs);
 
         setInterval(function() {
-            self.timerValue(self.timerValue() - 1);
-            self.timerProgress((100 * self.timerValue()) / self.refreshInterval);
             if(self.timerValue() == 0) {
                 self.timerValue(30);
                 refreshJobsInfo(self.jobs());
             }
+            self.timerValue(self.timerValue() - 1);
+            self.timerProgress((100 * self.timerValue()) / self.refreshInterval);
         }, 1000);
 
         return self;
