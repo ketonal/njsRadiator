@@ -9,6 +9,7 @@
 
     $(document).ready(function(){
         init();
+        $('.ui.sticky').sticky({context: '#context'});
     });
 
     return app;

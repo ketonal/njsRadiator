@@ -27,7 +27,6 @@
                 var match = regex.exec(self.actions.remoteUrls()[0]);
                 if(match.length >= 3 && self.changeSet.items().length > 0) {
                     var url = 'http://' + match[1] + '/?p=' + match[2] + ';a=commitdiff;h=' + self.changeSet.items()[0].commitId();
-                    console.log(url);
                     return url;
                 }
             }

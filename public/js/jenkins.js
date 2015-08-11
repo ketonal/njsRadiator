@@ -28,6 +28,7 @@
             if(self.timerValue() == 0) {
                 self.timerValue(30);
                 refreshJobsInfo(self.jobs());
+                $('.ui.sticky').sticky('refresh');
             }
             self.timerValue(self.timerValue() - 1);
             self.timerProgress((100 * self.timerValue()) / self.refreshInterval);
@@ -99,7 +100,6 @@
             data: {},
             success: function(data) {
                 var build = new module.Build(data);
-                console.log(build);
                 if(fn) {
                     fn.apply(self, [build]);
                 }

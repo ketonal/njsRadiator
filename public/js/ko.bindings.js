@@ -6,7 +6,9 @@ ko.bindingHandlers.jobStatusColor = {
                     red: 'red',
                     notbuilt: 'yellow'
                 };
-//        $(element).css('background-color', ko.unwrap(valueAccessor()));
+        _.each(cfg, function(val, key){
+          $(element).removeClass(val);
+        });
         $(element).addClass(cfg[ko.unwrap(valueAccessor())]);
     }
 }
