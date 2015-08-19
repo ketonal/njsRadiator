@@ -40,10 +40,17 @@ function parseFilter(filterString) {
 function matches(str, filter) {
     var gotThisAND = lodash.filter(filter.AND, function(n){return str.indexOf(n) > -1;});
     var gotThisNOT = lodash.filter(filter.NOT, function(n){return str.indexOf(n) > -1;});
-    return gotThisAND.length > 0 && gotThisNOT.length === 0;
+    if(filter.AND && filter.NOT) {
+        return gotThisAND.length > 0 && gotThisNOT.length === 0;
+    } else if(filter.AND) {
+        return gotThisAND.length > 0;
+    } else if(filter.NOT) {
+        return gotThisNOT.length === 0;
+    }
 }
 
 module.exports = {
   parse: parseFilter,
   matches: matches
 }
+
