@@ -18,16 +18,23 @@ block content
           | Setup your radiator basic data
       div(class='ui vertical stripe segment')
         div(class='ui middle aligned stackable grid container')
-          form(class='ui form')
-            div(class='fields')
-              div(class='field')
-                label Login
-                input(type='text' name='user' placeholder='Login' data-bind='value: config() ? config().user : \'\'')
-              div(class='field')
-                label Password
-                input(type='text' name='pass' placeholder='Password' data-bind='value: config() ? config().pass : \'\'')
-            div(class='field')
-              label Jenkins URL (parametrized)
-              input(type='text' name='jenkinsUrl' placeholder='https://{0}:{1}@jenkins.yourcompany.com/' data-bind='value: config() ? config().jenkinsUrl : \'\'')
-            button#save(class='ui button' type='button' data-bind='click: postConfig') Save
-            button#back(class='ui button' type='button' data-bind='click: goBack') Go back radiating
+          div(class='row')
+            div(class='column')
+              form(class='ui form')
+                div(class='fields')
+                  div(class='field')
+                    label Login
+                    input(type='text' name='user' placeholder='Login' data-bind='value: config() ? config().user : \'\'')
+                  div(class='field')
+                    label Password
+                    input(type='text' name='pass' placeholder='Password' data-bind='value: config() ? config().pass : \'\'')
+                div(class='field')
+                  label Jenkins URL (parametrized)
+                  input(type='text' name='jenkinsUrl' placeholder='https://{0}:{1}@jenkins.yourcompany.com/' data-bind='value: config() ? config().jenkinsUrl : \'\'')
+                button#save(class='ui button' type='button' data-bind='click: postConfig') Save
+                button#back(class='ui button' type='button' data-bind='click: goBack') Go back radiating
+          div(class='row')
+            div(class='column')
+              h3(class='ui header') Help
+              p /radiator/name/NAME - filter by NAME
+              p /radiator/name/+NAME1+NAME2-NAME3-NAME4 - filer by AND NAME1 AND NAME2 NOT NAME3 NOT NAME4
