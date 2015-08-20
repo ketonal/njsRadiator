@@ -113,6 +113,7 @@
     function refreshJobsInfo(jobs) {
         _.forEach(jobs, function(job) {
             job.loading(true);
+            job.detailsLoaded(false);
             getJobInfo(job, function(j){
                 j.loading(false);
                 j.detailsLoaded(true);

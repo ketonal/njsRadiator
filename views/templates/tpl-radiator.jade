@@ -1,5 +1,5 @@
 script#job-template(type='text/html').
-    <div class="ui centered segment inverted" data-bind="jobStatusColor: color">
+    <div class="ui centered segment inverted" data-bind="jobStatusColor: color, afterJobRefresh: $data">
       <div class="content">
         <h3><a class="ui grey inverted header" data-bind="attr: {href: url}, text: name"></a></h3>
         <!-- ko if: loading -->
@@ -15,8 +15,8 @@ script#job-template(type='text/html').
         <!-- /ko -->
         <!-- ko if: lastBuildInfo().changeSet-->
           <!-- ko if: lastBuildInfo().building -->
-            <div class="ui">
-              <i class="settings icon"></i>Building now...
+            <div class="ui" data-bind="buildingNow: lastBuildInfo().building">
+              <i class="huge settings icon building-now"></i>Building now...
             </div>
           <!-- /ko -->
           <!-- ko if: lastBuildInfo().changeSet.items().length > 0 -->
